@@ -1,0 +1,5 @@
+if(EXISTS "/Users/joshua/Projects/Viktor/cpp-containers/build/cpp_containers[1]_tests.cmake")
+  include("/Users/joshua/Projects/Viktor/cpp-containers/build/cpp_containers[1]_tests.cmake")
+else()
+  add_test(cpp_containers_NOT_BUILT cpp_containers_NOT_BUILT)
+endif()

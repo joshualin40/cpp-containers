@@ -1,0 +1,10 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/joshua/Projects/Viktor/cpp-containers/build/cmake_install.cmake",
+		"/Users/joshua/Projects/Viktor/cpp-containers/build/external/googletest/cmake_install.cmake",
+		"/Users/joshua/Projects/Viktor/cpp-containers/build/external/googletest/googlemock/cmake_install.cmake",
+		"/Users/joshua/Projects/Viktor/cpp-containers/build/external/googletest/googletest/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

@@ -1,0 +1,57 @@
+{
+  "tests": 9,
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "list_test",
+      "tests": 9,
+      "testsuite": [
+        {
+          "name": "initializer_list_constructor",
+          "file": "\/Users\/joshua\/Projects\/Viktor\/cpp-containers\/test.cpp",
+          "line": 7
+        },
+        {
+          "name": "push_back",
+          "file": "\/Users\/joshua\/Projects\/Viktor\/cpp-containers\/test.cpp",
+          "line": 16
+        },
+        {
+          "name": "insert_1",
+          "file": "\/Users\/joshua\/Projects\/Viktor\/cpp-containers\/test.cpp",
+          "line": 38
+        },
+        {
+          "name": "insert_2",
+          "file": "\/Users\/joshua\/Projects\/Viktor\/cpp-containers\/test.cpp",
+          "line": 63
+        },
+        {
+          "name": "insert_3",
+          "file": "\/Users\/joshua\/Projects\/Viktor\/cpp-containers\/test.cpp",
+          "line": 76
+        },
+        {
+          "name": "emplace_back",
+          "file": "\/Users\/joshua\/Projects\/Viktor\/cpp-containers\/test.cpp",
+          "line": 90
+        },
+        {
+          "name": "pop_back",
+          "file": "\/Users\/joshua\/Projects\/Viktor\/cpp-containers\/test.cpp",
+          "line": 98
+        },
+        {
+          "name": "push_front",
+          "file": "\/Users\/joshua\/Projects\/Viktor\/cpp-containers\/test.cpp",
+          "line": 110
+        },
+        {
+          "name": "erase",
+          "file": "\/Users\/joshua\/Projects\/Viktor\/cpp-containers\/test.cpp",
+          "line": 124
+        }
+      ]
+    }
+  ]
+}
