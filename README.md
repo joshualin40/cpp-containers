@@ -1,4 +1,4 @@
-- change do/while to just a while
-- DONE
+# cpp-containers
 
-- copy assignment -> appending elements instead of replacing 
+Re-implementations of C++ standard library containers, written from scratch. 
+
