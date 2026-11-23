@@ -327,6 +327,8 @@ namespace ft
         // OPERATIONS
         List &operator=(const List &other)
         {
+            if (this == &other)
+                return (*this); 
             clear(); 
             for (auto it = other.cbegin(); it != other.cend(); ++it)
             {

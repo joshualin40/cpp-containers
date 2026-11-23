@@ -592,26 +592,26 @@ TEST(list_test, copy_operation) {
     ASSERT_TRUE(dst2.empty());
     ASSERT_EQ(dst2.size(), 0);
 
-    // // edge: self-assignment leaves the list unchanged
-    // List<int> self{1, 2, 3};
-    // List<int> &selfRef = self; // avoid -Wself-assign-overloaded
-    // self = selfRef;
-    // ASSERT_EQ(self, (List<int>{1, 2, 3}));
-    // ASSERT_EQ(self.size(), 3);
-    // ASSERT_TRUE(self.validate());
+    // edge: self-assignment leaves the list unchanged
+    List<int> self{1, 2, 3};
+    List<int> &selfRef = self; // avoid -Wself-assign-overloaded
+    self = selfRef;
+    ASSERT_EQ(self, (List<int>{1, 2, 3}));
+    ASSERT_EQ(self.size(), 3);
+    ASSERT_TRUE(self.validate());
 
-    // // edge: chained assignment
-    // List<int> a{1, 2}, b, c;
-    // c = b = a;
-    // ASSERT_EQ(b, a);
-    // ASSERT_EQ(c, a);
+    // edge: chained assignment
+    List<int> a{1, 2}, b, c;
+    c = b = a;
+    ASSERT_EQ(b, a);
+    ASSERT_EQ(c, a);
 
-    // // edge: non-trivial element type
-    // List<std::string> s1{"x", "yy"};
-    // List<std::string> s2;
-    // s2 = s1;
-    // s1.front() = "changed";
-    // ASSERT_EQ(s2, (List<std::string>{"x", "yy"}));
+    // edge: non-trivial element type
+    List<std::string> s1{"x", "yy"};
+    List<std::string> s2;
+    s2 = s1;
+    s1.front() = "changed";
+    ASSERT_EQ(s2, (List<std::string>{"x", "yy"}));
 }
 TEST(list_test, comparison_operator) {
     List<int> l1{1,2,3,4};
