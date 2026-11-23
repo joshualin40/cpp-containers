@@ -97,7 +97,7 @@ namespace ft
         using iterator = ListIterator<T>;
         using const_iterator = ListIterator<const T>;
         using reverse_iterator = std::reverse_iterator<iterator>; 
-        using const_reverse_iterator = std::reverse_iterator<const_iterator>>; 
+        using const_reverse_iterator = std::reverse_iterator<const_iterator>; 
         // constructors
         List()
         {
@@ -117,13 +117,14 @@ namespace ft
 
         ~List()
         {
-            NodeBase *curr = sentinel;
-            for (int i = 0; i < m_size + 1; ++i)
+            Node<T>* curr = static_cast<Node<T>*>(sentinel->next);
+            for (int i = 0; i < m_size; ++i)
             {
-                auto next = static_cast<Node<T> *>(curr->next);
+                auto next = static_cast<Node<T>*>(curr->next);
                 delete curr;
                 curr = next;
             }
+            delete sentinel; 
         }
 
         // ELEMENT ACCESS
@@ -133,10 +134,10 @@ namespace ft
         const_iterator cbegin() const { return const_iterator(sentinel->next); };
         iterator end() { return iterator(sentinel); };
         const_iterator cend() const { return const_iterator(sentinel); };
-        reverse_iterator begin() { return reverse_iterator(sentinel->prev)}; 
-        const_reverse_iterator rbegin() const { return reverse_iterator(sentinel->prev)}; 
-        reverse_iterator end () { return reverse_iterator(sentinel)}; 
-        const_reverse_iterator rend() const { return const_reverse_iterator(sentinel)}; 
+        reverse_iterator rbegin() { return reverse_iterator(sentinel->prev);}; 
+        const_reverse_iterator crbegin() const { return reverse_iterator(sentinel->prev);}; 
+        reverse_iterator rend () { return reverse_iterator(sentinel);}; 
+        const_reverse_iterator crend() const { return const_reverse_iterator(sentinel);}; 
 
         // CAPACITY
         bool empty() { return (sentinel->next == sentinel); }
@@ -226,7 +227,7 @@ namespace ft
             if (pos == cend())
                 return end();
 
-            auto target = pos.m_node;
+            auto target = static_cast<Node<T>*>(pos.m_node);
             auto before = target->prev;
             auto after = target->next;
 
@@ -326,6 +327,7 @@ namespace ft
         // OPERATIONS
         List &operator=(const List &other)
         {
+            clear(); 
             for (auto it = other.cbegin(); it != other.cend(); ++it)
             {
                 this->push_back(*it);
@@ -358,35 +360,33 @@ namespace ft
         void reverse()
         {
             if (sentinel->next == sentinel || sentinel->next->next == sentinel)
-            {
                 return;
-            }
 
             auto curr = sentinel;
-            do
-            {
-                auto temp = static_cast<Node<T> *>(curr->next);
+            for (int i = 0; i < size() + 1; ++i) {
+                auto temp = static_cast<Node<T>*>(curr->next);
                 curr->next = curr->prev;
                 curr->prev = temp;
 
-                curr = static_cast<Node<T> *>(curr->prev); // prev, since it was swapped
-            } while (curr != sentinel);
+                curr = static_cast<Node<T>*>(curr->prev); // prev, since it was swapped
+            }
         }
         // Helper
         bool validate()
         { // helper to validate entire linked list
-            // walk the full ring (including the link back into sentinel),
-            // checking every next->prev pair and counting real nodes
-            NodeBase *curr = sentinel;
+            // first test sentinel connections: 
+            if (sentinel->next->prev != sentinel || sentinel->prev->next != sentinel)
+                return false; 
+            // then test all nodes
+            Node<T>* curr = static_cast<Node<T>*>(sentinel->next);
             size_t s = 0;
-            do
-            {
+            while (curr != sentinel) {
+                s++; 
                 if (curr->next->prev != curr)
                     return false;
-                curr = curr->next;
-                if (curr != sentinel)
-                    s++;
-            } while (curr != sentinel);
+                std::cout << "Valdating" << curr->val << std::endl; 
+                curr = static_cast<Node<T>*>(curr->next); 
+            }
 
             if (size() != s)
             {
