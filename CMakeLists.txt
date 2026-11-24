@@ -18,7 +18,10 @@ endif()
 enable_testing()
 add_subdirectory(external/googletest)
 
-add_executable(cpp_containers test.cpp)
+add_executable(cpp_containers 
+    src/vector_test.cpp
+)
+target_include_directories(cpp_containers PRIVATE include)
 target_link_libraries(cpp_containers GTest::gtest_main)
 
 include(GoogleTest)

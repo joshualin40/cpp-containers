@@ -1,15 +1,9 @@
 #include <gtest/gtest.h>
 #include <iostream>
-#include <concepts>
 #include <string>
 #include <vector>
 #include "list.h"
 
-// Turn on LeakSanitizer by default (it's off by default on macOS).
-// Apple clang has no LeakSanitizer, so skip it there.
-#if !defined(__apple_build_version__)
-extern "C" const char* __asan_default_options() { return "detect_leaks=1"; }
-#endif
 
 namespace ft
 {

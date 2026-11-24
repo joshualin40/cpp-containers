@@ -24,7 +24,7 @@ namespace ft
     {
     public:
         using size_type = size_t;
-        using reference = T &;
+        using reference = T&;
 
         template <typename U>
         class ListIterator
