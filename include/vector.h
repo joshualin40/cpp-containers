@@ -72,7 +72,7 @@ namespace ft
             if (size() == capacity())
                 size() == 0 ? reallocate(1) : reallocate(size() * 2);
         
-            new (m_last) T(value);
+            new (m_last) T(std::move(value));
             m_last++;
         }
 
