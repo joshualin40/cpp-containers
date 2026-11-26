@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include "vector.h"
@@ -53,7 +54,8 @@ TEST(vector_test, push_back_own_element_when_full) {
     v.push_back(std::string(64, 'a'));
     v.push_back(std::string(64, 'b'));
     ASSERT_EQ(v.size(), v.capacity());
-    v.push_back(v[0]);
+    v.push_back(v[0]); // v[0] is a const_reference, ie const T& 
+                    // if we need to resize, first need to save element 
     EXPECT_EQ(v[2], std::string(64, 'a'));
 }
 
@@ -133,4 +135,76 @@ TEST(vector_test, destroys_every_element_once) {
         EXPECT_EQ(Counted::alive, 4);
     }
     EXPECT_EQ(Counted::alive, 0);
+}
+
+TEST(vector_test, zero_size) {
+    Vector<int> v;
+    ASSERT_EQ(v.size(), 0);
+    ASSERT_EQ(v.capacity(), 0); 
+}
+
+TEST(vector_test, push_back_lvalue_copies) {
+    Counted::copies = 0;
+    Vector<Counted> v;
+    Counted c(5);
+    v.push_back(c);
+    EXPECT_EQ(Counted::copies, 1); // exactly one copy, none on reallocation
+    EXPECT_EQ(c.value, 5);         // source untouched
+    EXPECT_EQ(v[0].value, 5);
+}
+
+TEST(vector_test, push_back_move_only_type) {
+    // must compile and work for types with no copy constructor
+    Vector<std::unique_ptr<int>> v;
+    for (int i = 0; i < 5; ++i)
+        v.push_back(std::make_unique<int>(i));
+    for (int i = 0; i < 5; ++i)
+        EXPECT_EQ(*v[i], i);
+}
+
+TEST(vector_test, push_back_many) {
+    Vector<std::string> v;
+    for (int i = 0; i < 1000; ++i)
+        v.push_back(std::to_string(i));
+    EXPECT_EQ(v.size(), 1000u);
+    EXPECT_GE(v.capacity(), 1000u);
+    for (int i = 0; i < 1000; ++i)
+        EXPECT_EQ(v[i], std::to_string(i));
+}
+
+TEST(vector_test, elements_are_contiguous) {
+    Vector<int> v;
+    for (int i = 0; i < 10; ++i)
+        v.push_back(i);
+    for (std::size_t i = 0; i < v.size(); ++i)
+        EXPECT_EQ(&v[i], &v[0] + i);
+}
+
+TEST(vector_test, no_reallocation_within_capacity) {
+    Vector<int> v;
+    for (int i = 0; i < 3; ++i)
+        v.push_back(i);
+    ASSERT_EQ(v.capacity(), 4u);
+    int* before = &v[0];
+    v.push_back(3); // fills the last free slot
+    EXPECT_EQ(&v[0], before); // references stay valid
+}
+
+TEST(vector_test, empty_after_push_and_pop) {
+    Vector<int> v;
+    v.push_back(1);
+    EXPECT_FALSE(v.empty());
+    v.pop_back();
+    EXPECT_TRUE(v.empty());
+    EXPECT_EQ(v.size(), 0u);
+    EXPECT_THROW(v.at(0), std::out_of_range);
+}
+
+TEST(vector_test, const_capacity_queries) {
+    Vector<int> v;
+    v.push_back(1);
+    const Vector<int>& cv = v;
+    EXPECT_FALSE(cv.empty());
+    EXPECT_EQ(cv.size(), 1u);
+    EXPECT_EQ(cv.capacity(), 1u);
 }
